@@ -1,0 +1,2 @@
+REDIS_HOST = 'put your redis server address'
+REDIS_PASSWORD = 'always use password' 
