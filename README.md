@@ -22,12 +22,8 @@ Renombrar app.cfg-sample a app.cfg y editar con los parametros apropiados
 
 El archivo app.wsgi esta pensado para correr con un servidor apache con la extension libapache2-mod-wsgi 
 
-## TODO
+## Todo
 
 - Cambiar el javascript para hacer 100% single page application
 - Agregar mas documentacion 
-
-## Autor
-
-@agramajo
 
