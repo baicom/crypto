@@ -17,6 +17,7 @@ def index(id=None):
 
 #
 # Manejamos /get via json
+# Busca el id en el servidor redis
 #
 @app.route('/get', methods=['POST'])
 def get():
@@ -43,6 +44,7 @@ def get():
 
 #
 # Manejamos /post via un formulario
+# Guarda el mensaje encriptado en el servidor redis
 #
 @app.route('/post', methods=['POST'])
 def post():
