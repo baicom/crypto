@@ -2,8 +2,11 @@
 
 # Para correr en apache con wsgi
 #
-# WSGIScriptAlias / /var/www/crypto.baicom.com/web/crypto/app.wsgi
-
+# Incluir en la config:
+#
+#   Alias /static /var/www/rypto.baicom.com/web/crypto/static
+#   WSGIScriptAlias / /var/www/crypto.baicom.com/web/crypto/app.wsgi
+ 
 PROJECT_DIR = '/var/www/crypto.baicom.com/web/crypto'
 
 activate_this = PROJECT_DIR + '/venv/bin/activate_this.py'

@@ -5,42 +5,45 @@ import random
 
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
-
 r = Redis(host=app.config['REDIS_HOST'],password=app.config['REDIS_PASSWORD'])
-char_set = string.ascii_uppercase + string.ascii_lowercase + string.digits
-char_len = 10
 
+#
+# Mostramos el index.html
+#
 @app.route('/')
 @app.route('/<id>')
 def index(id=None):
-    js_code = ""
+    return render_template('index.html')
+
+#
+# Manejamos /get via json
+#
+@app.route('/get', methods=['POST'])
+def get():
+    id = request.form.get('id')
     info = ""
 
-    if id:
-        js_code = """
-$("#c1").removeClass('active');
-$("#m1").removeClass('disabled');
-$("#m1").addClass('active');
-$("#m2").attr('data-toggle','pill');
-$("#tab1").removeClass('in active');
-$("#tab3").addClass('in active');
-"""
-        m = r.get(id)
-        if m == None:
-            m = "No existe el mensaje"
-        else:
-            secs = r.ttl(id)
-            info = "&nbsp; Expira en %d d&iacute;a/s" % (secs/86400)
-            if m.find('destroy') == 0:
-                destroy = 1
-                m = m.replace('destroy','')
-                r.delete(id) 
-                info += ", destruir al leer"
+    m = r.get(id)
+    if m == None:
+        m = "No existe el mensaje"
+    else:
+        secs = r.ttl(id)
+        info = "&nbsp; Expira en %d d&iacute;a/s" % (secs/86400)
+        if m.find('destroy') == 0:
+            destroy = 1
+            m = m.replace('destroy','')
+            r.delete(id) 
+            info += ", destruir al leer"
 
-        js_code += '$("#msg3").val("%s")' % m
+    # TODO
+    # el tiempo de expiracion y el flag destroy se comunican por texto
+    # se deberia informar en el json y el main.js parsearlo 
 
-    return render_template('index.html',js_code=js_code,info=info)
+    return jsonify({'info':info,'msg':m})
 
+#
+# Manejamos /post via un formulario
+#
 @app.route('/post', methods=['POST'])
 def post():
     msg1 = request.form['msg1']
@@ -57,7 +60,13 @@ def post():
 
     return request.url_root + rand, 200 
 
+#
+# Genera el random string (mayusculas, minusculas y digitos)
+#
 def randstr():
+    char_set = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    char_len = 10
+
     return ''.join(random.sample(char_set*char_len,char_len))
 
 if __name__ == '__main__':

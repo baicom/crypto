@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
  <style>
   html { position: relative; min-height: 100%; }
   body { margin-bottom: 60px; } 
@@ -30,9 +28,12 @@
             <div class="modal-body">
                <form role="form">
                 <div class="form-group">
+                    <span id="poststatus" class="label"></span>
+                </div>
+                <div class="form-group">
                     <input id="postdetail" type="text" class="form-control" readonly />
                 </div>
-                Ayuda: copiar: ctrl+c
+                Ayuda: para copiar presionar ctrl+c
                </form>
             </div>
             <div class="modal-footer">
@@ -99,7 +100,7 @@
       <input type="password" class="form-control" id="key3" placeholder="Clave secreta" required>
     </div>
     <input type="button" class="btn btn-default" id="btn4" value="Desencriptar"/>
-    {{ info|safe }}
+    <span id="info"></span>
   </form>
   <br/>
   <form role="form">
@@ -124,57 +125,9 @@
   </div>
 </footer>
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="/static/main.js"></script>
 
-<script>
-$("#form1").submit(function(e) {
-    e.preventDefault();
-    key = $("#key1").val();
-    str = $("#msg1").val();
-
-    var crypt = CryptoJS.AES.encrypt(str, key);
-    $('#msg1').val(crypt);
-
-    $.post("/post",
-        $("#form1").serialize(),
-        function(data) {
-            $("#postdetail").val(data);
-            $('#waitdialog').modal('show');
-            $('#waitdialog').on('shown.bs.modal', function (e) {
-                $('#postdetail').focus().select();
-            });
-        }
-    );
-});
-// encriptar
-$("#btn2").click(function() {
-    key = $("#key2").val();
-    str = $("#msg2").val();
-    if (!key) { alert("Clave vacia"); return false; }
-    if (!str) { alert("Mensaje vacio"); return false; }
-    var crypt = CryptoJS.AES.encrypt(str, key);
-    var str2 = crypt.toString().replace(/\s/g,'').replace(/(.{64})/g,"$1\n").replace(/\n$/,'');
-    $("#msg2").val(str2);
-    $("#msg2").focus().select();
-});
-// desencriptar
-$("#btn3").click(function() {
-    key = $("#key2").val();
-    str = $("#msg2").val();
-    if (!key) { alert("Clave vacia"); return false; }
-    if (!str) { alert("Mensaje vacio"); return false; }
-    str = str.replace(/(\s+|\r\n|\r|\n)/g,'');
-    var crypt = CryptoJS.AES.decrypt(str, key);
-    $("#msg2").val(crypt.toString(CryptoJS.enc.Utf8));
-});
-// desencriptar
-$("#btn4").click(function() {
-    key = $("#key3").val();
-    str = $("#msg3").val();
-    if (!key) { alert("Clave vacia"); return false; }
-    str = str.replace(/(\s+|\r\n|\r|\n)/g,'');
-    var crypt = CryptoJS.AES.decrypt(str, key);
-    $("#msg3").val(crypt.toString(CryptoJS.enc.Utf8));
-});
-{{ js_code|safe }} 
-</script>
 </body>
+</html>
