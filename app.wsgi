@@ -4,7 +4,7 @@
 #
 # Incluir en la config:
 #
-#   Alias /static /var/www/rypto.baicom.com/web/crypto/static
+#   Alias /static /var/www/crypto.baicom.com/web/crypto/static
 #   WSGIScriptAlias / /var/www/crypto.baicom.com/web/crypto/app.wsgi
  
 PROJECT_DIR = '/var/www/crypto.baicom.com/web/crypto'
