@@ -13,7 +13,7 @@ r = Redis(host=app.config['REDIS_HOST'],password=app.config['REDIS_PASSWORD'])
 @app.route('/')
 @app.route('/<id>')
 def index(id=None):
-    return render_template('index.html')
+    return app.send_static_file('index.html')
 
 #
 # Manejamos /get via json
