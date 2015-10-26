@@ -26,7 +26,7 @@ Ademas dicha modalidad permite darle un tiempo de expiración al mensaje y activ
 - JQuery
 - Bootstrap
 - Python Flask
-- AES Google Lib
+- CryptoJS
 
 ## Importante
 
