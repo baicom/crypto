@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, jsonify, url_for
 from redis import Redis
-from flasgger import Swagger, swag_from
+from flasgger import Swagger
 import string
 import random
 
