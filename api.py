@@ -1,11 +1,12 @@
-from flask import Flask, request, redirect, jsonify, url_for
+from flask import Flask, request, redirect, jsonify, url_for, json
 from redis import Redis
+from flask_cors import CORS, cross_origin
 from flasgger import Swagger
 import string
 import random
 
 app = Flask(__name__)
-
+cors = CORS(app)
 swag = Swagger(
     app,
     template={
@@ -69,7 +70,7 @@ swag = Swagger(
             "MsgCreated": {
                 "type": "object",
                 "properties": {
-                    "mesgid": {
+                    "msgid": {
                         "type": "string",
                         "description": "Identidicador con el id que se generó en la base de datos",
                     }
@@ -91,6 +92,7 @@ def empty():
 
 
 @app.route("/<id>", methods=["GET"])
+@cross_origin()
 def index(id=None):
     """
       Retorna el mensaje persistido en la base de datos
@@ -108,6 +110,7 @@ def index(id=None):
           required: true
           type: "string"
           default: ""
+          example: "zAhwkUlayG"
       responses:
         "200":
           description: "Mensaje creado con exito"
@@ -124,8 +127,9 @@ def index(id=None):
     code = 200
     m = r.get(id)
     if m == None:
-        m = "No existe el mensaje"
+        info = "No existe el mensaje"
         code = 404
+        m = ""
     else:
         secs = r.ttl(id)
         info = "Expira en %d dias" % (secs / 86400)
@@ -137,10 +141,7 @@ def index(id=None):
             info += ", destruir al leer"
             code = 200
 
-    if code == 200:
-        return jsonify({"info": info, "msg": m, "id": id}), code
-    else:
-        return jsonify({"info": m, "msg": "", "id": id}), code
+    return jsonify({"info": info, "msg": m, "id": id}), code
 
 
 @app.route("/", methods=["POST"])
@@ -173,21 +174,27 @@ def post():
         "401":
           description: "No tiene permisos"
     """
-    req_data = request.get_json()
+    req_data = json.loads(request.data)
+    if req_data == None:
+        return jsonify({"msgid": "payload empty"}), 400
+
     msg1 = req_data["msg1"]
     expire = req_data["expire"]
-    destroy = req_data["destroy"]
+    if "destroy" in req_data:
+        destroy = 'destroy'
+    else:
+        destroy = ''
+
     rand = randstr()
 
-    if destroy:
-        msg1 = "destroy" + msg1
+    msg1 = destroy + msg1
 
     p = r.pipeline()
     p.set(rand, msg1)
     p.expire(rand, expire)
     p.execute()
 
-    return jsonify({"mesgid": rand}), 201
+    return jsonify({"msgid": rand}), 201
 
 
 #
