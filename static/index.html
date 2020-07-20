@@ -1,135 +1,259 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
- <meta charset="utf-8" />
- <title>BAICOM Crypto</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
- <style>
-  html { position: relative; min-height: 100%; }
-  body { margin-bottom: 60px; } 
-  .container { width: auto; max-width: 680px; padding: 0 15px; }
-  .footer { position: absolute; bottom: 0; width: 100%; height: 60px; background-color: #f5f5f5; }
-  .container .text-muted { margin: 20px 0; text-align: center; }
-  </style>
-</head>
-<body> 
-<div class="container">
-
-  <div class="modal fade" id="waitdialog" role="dialog">
-     <div class="modal-dialog">
-         <div class="modal-content">
+  <head>
+    <meta charset="utf-8" />
+    <title>BAICOM Crypto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <style>
+      html {
+        position: relative;
+        min-height: 100%;
+      }
+      body {
+        margin-bottom: 60px;
+      }
+      .container {
+        width: auto;
+        max-width: 680px;
+        padding: 0 15px;
+      }
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;
+      }
+      .container .text-muted {
+        margin: 20px 0;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="modal fade" id="waitdialog" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
             <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Mensaje</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+              <h4 class="modal-title">Mensaje</h4>
             </div>
             <div class="modal-body">
-               <form role="form">
+              <form role="form">
                 <div class="form-group">
-                    <span id="poststatus" class="label"></span>
+                  <span id="poststatus" class="label"></span>
                 </div>
                 <div class="form-group">
-                    <input id="postdetail" type="text" class="form-control" readonly />
+                  <input
+                    id="postdetail"
+                    type="text"
+                    class="form-control"
+                    readonly
+                  />
                 </div>
                 Ayuda: para copiar presionar ctrl+c
-               </form>
+              </form>
             </div>
             <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                Cerrar
+              </button>
             </div>
-         </div>
-     </div>
-  </div>
-
-  <div class="page-header">
-      <ul class="nav nav-pills">
-        <li role="presentation" class="active" id="c1"><a data-toggle="pill" href="#tab1">Online</a></li>
-        <li role="presentation"><a data-toggle="pill" href="#tab2">Tradicional</a></li>
-        <li role="presentation"><a data-toggle="pill" href="#tab4">Ayuda</a></li>
-        <li role="presentation" class="disabled" id="m1"><a id="m2" href="#tab3">Mensaje</a></li>
-      </ul>
-      <!--<h2>BAICOM Crypto</h2>-->
-  </div>
-
-  <div class="tab-content">
-  <div class="tab-pane fade in active" id="tab1">
-  <form class="form" role="form" id="form1">
-    <div class="form-group form-inline">
-      <input type="password" class="form-control" id="key1" placeholder="Clave secreta" required/>
-      <div class="input-group">
-        <div class="input-group-addon">Expira</div>
-        <select class="form-control" name="expire">
-          <option value="2592000">1 mes</option>
-          <option selected value="604800">1 semana</option>
-          <option value="86400">1 dia</option>
-        </select>
+          </div>
+        </div>
       </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" name="destroy"> Destruir al leer
-        </label>
+
+      <div class="page-header">
+        <ul class="nav nav-pills">
+          <li role="presentation" class="active" id="c1">
+            <a data-toggle="pill" href="#tab1">Online</a>
+          </li>
+          <li role="presentation">
+            <a data-toggle="pill" href="#tab2">Tradicional</a>
+          </li>
+          <li role="presentation">
+            <a data-toggle="pill" href="#tab4">Ayuda</a>
+          </li>
+          <li role="presentation" class="disabled" id="m1">
+            <a id="m2" href="#tab3">Mensaje</a>
+          </li>
+        </ul>
+        <!--<h2>BAICOM Crypto</h2>-->
       </div>
-      <input type="submit" class="btn btn-default" id="btn1" value="Grabar"/>
-      <input type="reset" class="btn" value="Borrar"/>
-    </div>
-    <div class="form-group">
-      <textarea class="form-control" rows="20" id="msg1" name="msg1" placeholder="Mensaje" required></textarea>
-    </div>
-  </form>
-  </div>
 
-  <div class="tab-pane fade" id="tab2">
-  <form class="form" role="form" id="form2">
-    <div class="form-group form-inline">
-      <input type="password" class="form-control" id="key2" placeholder="Clave secreta" required/>
-      <input type="button" class="btn btn-default" id="btn2" value="Encriptar"/>
-      <input type="button" class="btn btn-default" id="btn3" value="Desencriptar"/>
-      <input type="reset" class="btn" value="Borrar"/>
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="tab1">
+          <form class="form" role="form" id="form1">
+            <div class="form-group form-inline">
+              <input
+                type="password"
+                class="form-control"
+                id="key1"
+                placeholder="Clave secreta"
+                required
+              />
+              <div class="input-group">
+                <div class="input-group-addon">Expira</div>
+                <select class="form-control" name="expire">
+                  <option value="2592000">1 mes</option>
+                  <option selected value="604800">1 semana</option>
+                  <option value="86400">1 dia</option>
+                </select>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="destroy" value="true" /> Destruir
+                  al leer
+                </label>
+              </div>
+              <input
+                type="submit"
+                class="btn btn-default"
+                id="btn1"
+                value="Grabar"
+              />
+              <input type="reset" class="btn" value="Borrar" />
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                rows="20"
+                id="msg1"
+                name="msg1"
+                placeholder="Mensaje"
+                required
+              ></textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="tab-pane fade" id="tab2">
+          <form class="form" role="form" id="form2">
+            <div class="form-group form-inline">
+              <input
+                type="password"
+                class="form-control"
+                id="key2"
+                placeholder="Clave secreta"
+                required
+              />
+              <input
+                type="button"
+                class="btn btn-default"
+                id="btn2"
+                value="Encriptar"
+              />
+              <input
+                type="button"
+                class="btn btn-default"
+                id="btn3"
+                value="Desencriptar"
+              />
+              <input type="reset" class="btn" value="Borrar" />
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                rows="20"
+                id="msg2"
+                placeholder="Mensaje"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="tab-pane fade" id="tab3">
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                id="key3"
+                placeholder="Clave secreta"
+                required
+              />
+            </div>
+            <input
+              type="button"
+              class="btn btn-default"
+              id="btn4"
+              value="Desencriptar"
+            />
+            <span id="info"></span>
+          </form>
+          <br />
+          <form role="form">
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                rows="20"
+                id="msg3"
+                placeholder="Mensaje"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="tab-pane fade" id="tab4">
+          <p>
+            El sistema posee dos modalidades: ONLINE generar un mensaje
+            encriptado y guardarlo para compartir el link, TRADICIONAL interface
+            para encriptar o desencriptar un texto sin almacenamiento. Para
+            ambos modos hay que usar una clave para intercambiar
+            informaci&oacute;n.
+          </p>
+          <p>
+            Los mensajes en modalidad ONLINE no son almacenados en texto plano,
+            ya que al hacer click en el boton "Grabar" el navegador primero
+            encripta los datos y luego los envia para generar el link de
+            intercambio.
+          </p>
+          <p>
+            Ademas dicha modalidad permite darle un tiempo de expiraci&oacute;n
+            al mensaje y activar que sea destruido al leer, de esa manera la
+            persona que recibe el link solo tendra esa oportunidad para leer el
+            mensaje.
+          </p>
+          <p>
+            Para mayor seguridad la clave debe ser lo mas larga posible,
+            preferentemente una frase
+          </p>
+          <p>
+            El codigo fuente esta disponible en
+            <a href="http://github.com/baicom/crypto">github</a>, si encontras
+            algun bug o tenes una sugerencia tambien podes enviar un email a
+            info(arroba)baicom(punto)com
+          </p>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <textarea class="form-control" rows="20" id="msg2" placeholder="Mensaje"></textarea>
-    </div>
-  </form>
-  </div>
 
-  <div class="tab-pane fade" id="tab3">
-  <form class="form-inline" role="form">
-    <div class="form-group">
-      <input type="password" class="form-control" id="key3" placeholder="Clave secreta" required>
-    </div>
-    <input type="button" class="btn btn-default" id="btn4" value="Desencriptar"/>
-    <span id="info"></span>
-  </form>
-  <br/>
-  <form role="form">
-    <div class="form-group">
-      <textarea class="form-control" rows="20" id="msg3" placeholder="Mensaje"></textarea>
-    </div>
-  </form>
-  </div>
- 
-  <div class="tab-pane fade" id="tab4">
-    <p>El sistema posee dos modalidades: ONLINE generar un mensaje encriptado y guardarlo para compartir el link, TRADICIONAL  interface para encriptar o desencriptar un texto sin almacenamiento. Para ambos modos hay que usar una clave para intercambiar informaci&oacute;n.</p>
-    <p>Los mensajes en modalidad ONLINE no son almacenados en texto plano, ya que al hacer click en el boton "Grabar" el navegador primero encripta los datos y luego los envia para generar el link de intercambio.</p>
-    <p>Ademas dicha modalidad permite darle un tiempo de expiraci&oacute;n al mensaje y activar que sea destruido al leer, de esa manera la persona que recibe el link solo tendra esa oportunidad para leer el mensaje.</p>
-    <p>Para mayor seguridad la clave debe ser lo mas larga posible, preferentemente una frase</p>
-    <p>El codigo fuente esta disponible en <a href="http://github.com/baicom/crypto">github</a>, si encontras algun bug o tenes una sugerencia tambien podes enviar un email a info(arroba)baicom(punto)com</p>
-  </div>
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">
+          powered by <a href="http://baicom.com/?crypto">baicom</a>
+        </p>
+      </div>
+    </footer>
 
-  </div>
-</div>
-
-<footer class="footer">
-  <div class="container">
-    <p class="text-muted">powered by <a href="http://baicom.com/?crypto">baicom</a></p>
-  </div>
-</footer>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-<script src="/static/main.js"></script>
-
-</body>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="/static/main.js"></script>
+  </body>
 </html>
