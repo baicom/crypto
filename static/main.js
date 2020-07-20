@@ -1,6 +1,11 @@
+var BASE_URL = "http://localhost:5100/";
+
 $(document).ready(function () {
   // buscar si viene un id en path tenemos que hacer el get
   var id = location.pathname.substring(1);
+  $.ajaxSetup({
+    url: BASE_URL,
+  });
 
   // tenemos un id
   if (id.length === 10) {
@@ -86,9 +91,14 @@ $(document).ready(function () {
 });
 
 var get = function (gid) {
-  $.get("http://localhost:5100/" + gid, function (data) {
-    $("#info").html(data.info);
-    $("#msg3").val(data.msg);
+  $.ajax({
+    type: "GET",
+    url: BASE_URL + gid,
+    dataType: "json",
+    success: function (data) {
+      $("#info").html(data.info);
+      $("#msg3").val(data.msg);
+    },
   });
 };
 
@@ -96,7 +106,6 @@ var post = function () {
   console.log(serializate($("#form1").serializeArray()));
   var datos = serializate($("#form1").serializeArray());
   $.ajax({
-    url: "http://localhost:5100/",
     type: "POST",
     headers: { "content-type": "application/json" },
     data: datos,
